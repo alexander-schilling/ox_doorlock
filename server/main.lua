@@ -44,6 +44,8 @@ local function encodeData(door)
 		lockSound = door.lockSound,
 		maxDistance = door.maxDistance,
 		doorRate = door.doorRate,
+		lockYaw = door.lockYaw,
+		openYaw = door.openYaw,
 		model = door.model,
 		state = door.state,
 		unlockSound = door.unlockSound,

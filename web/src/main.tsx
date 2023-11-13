@@ -38,6 +38,8 @@ debugData<DoorColumn[]>([
         hideUi: true,
         doorRate: null,
         holdOpen: true,
+        lockYaw: null,
+        openYaw: null
       },
     ],
   },

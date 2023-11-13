@@ -13,6 +13,8 @@ export interface StoreState {
   groups: { name: StringField; grade: NumberField }[];
   maxDistance: NumberField;
   doorRate: NumberField;
+  lockYaw: NumberField;
+  openYaw: NumberField;
   lockSound: StringField;
   unlockSound: StringField;
   lockpickDifficulty: Array<string | { areaSize: number; speedMultiplier: number }>;
@@ -39,6 +41,8 @@ interface StateSetters {
   toggleCheckbox: (type: 'state' | 'doors' | 'auto' | 'lockpick' | 'hideUi' | 'holdOpen') => void;
   setMaxDistance: (value: StoreState['maxDistance']) => void;
   setDoorRate: (value: StoreState['doorRate']) => void;
+  setLockYaw: (value: StoreState['lockYaw']) => void;
+  setOpenYaw: (value: StoreState['openYaw']) => void;
 }
 
 export const useStore = create<StoreState>(() => ({
@@ -59,6 +63,8 @@ export const useStore = create<StoreState>(() => ({
   hideUi: false,
   doors: false,
   holdOpen: false,
+  lockYaw: null,
+  openYaw: null
 }));
 
 export const defaultState = useStore.getState();
@@ -90,4 +96,6 @@ export const useSetters = create<StateSetters>((set: SetState<StateSetters>, get
       lockpickDifficulty: fn(difficultyFields),
     })),
   setDoorRate: (value: StoreState['doorRate']) => useStore.setState({ doorRate: value }),
+  setLockYaw: (value: StoreState['lockYaw']) => useStore.setState({ lockYaw: value }),
+  setOpenYaw: (value: StoreState['openYaw']) => useStore.setState({ openYaw: value }),
 }));

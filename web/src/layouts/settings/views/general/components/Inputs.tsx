@@ -15,6 +15,8 @@ const Inputs: React.FC = () => {
   const autolockInterval = useStore((state) => state.autolock);
   const interactDistance = useStore((state) => state.maxDistance);
   const doorRate = useStore((state) => state.doorRate);
+  const lockYaw = useStore((state) => state.lockYaw);
+  const openYaw = useStore((state) => state.openYaw);
 
   //   const [setDoorName, setPasscode, setAutolockInterval, setInteractDistance, setDoorRate] = useSetters((setter) => [
   //     setter.setDoorName,
@@ -29,6 +31,8 @@ const Inputs: React.FC = () => {
   const setAutolockInterval = useSetters((setter) => setter.setAutolock);
   const setInteractDistance = useSetters((setter) => setter.setMaxDistance);
   const setDoorRate = useSetters((setter) => setter.setDoorRate);
+  const setLockYaw = useSetters((setter) => setter.setLockYaw);
+  const setOpenYaw = useSetters((setter) => setter.setOpenYaw);
 
   return (
     <>
@@ -56,6 +60,20 @@ const Inputs: React.FC = () => {
           value={doorRate || 0}
           setValue={(value: number) => setDoorRate(value)}
           infoCircle="Speed the automatic door will move at"
+        />
+        <Input
+            label="Lock Yaw"
+            type="number"
+            value={(typeof(lockYaw) == 'number') ? lockYaw : ''}
+            setValue={(value: number) => setLockYaw(value)}
+            infoCircle="Freeze entity at this angle when door is closed"
+        />
+        <Input
+            label="Open Yaw"
+            type="number"
+            value={(typeof(openYaw) == 'number') ? openYaw : ''}
+            setValue={(value: number) => setOpenYaw(value)}
+            infoCircle="Freeze entity at this angle when door is open"
         />
       </Grid>
     </>

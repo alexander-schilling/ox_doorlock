@@ -9,6 +9,57 @@ end
 
 lib.locale()
 
+local function refreshDoorYaw(door)
+	if not door.lockYaw and not door.openYaw then return end
+
+	local double = door.doors
+
+	if double then
+		if not double[1].entity or not double[2].entity then
+			return
+		end
+
+		FreezeEntityPosition(double[1].entity, false)
+		FreezeEntityPosition(double[2].entity, false)
+
+		if door.lockYaw and door.state == 1 and double[1].entity and double[2].entity then
+			FreezeEntityPosition(double[1].entity, door.state == 1)
+			FreezeEntityPosition(double[2].entity, door.state == 1)
+			SetEntityRotation(double[1].entity, 0.0, 0.0, door.lockYaw + 0.0, 2, true)
+			SetEntityRotation(double[2].entity, 0.0, 0.0, door.lockYaw + 180.0, 2, true)
+		end
+
+		if door.openYaw  and door.state == 0 and double[1].entity and double[2].entity then
+			FreezeEntityPosition(double[1].entity, door.state == 0)
+			FreezeEntityPosition(double[2].entity, door.state == 0)
+			SetEntityRotation(double[1].entity, 0.0, 0.0, door.openYaw + 0.0, 2, true)
+			SetEntityRotation(double[2].entity, 0.0, 0.0, door.openYaw + 180.0, 2, true)
+		end
+	else
+		if not door.entity then
+			return
+		end
+
+		FreezeEntityPosition(door.entity, false)
+
+		if door.lockYaw and door.state == 1 and door.entity then
+			FreezeEntityPosition(door.entity, door.state == 1)
+			SetEntityRotation(door.entity, 0.0, 0.0, door.lockYaw + 0.0, 2, true)
+		end
+
+		if door.openYaw  and door.state == 0 and door.entity then
+			FreezeEntityPosition(door.entity, door.state == 0)
+			SetEntityRotation(door.entity, 0.0, 0.0, door.openYaw + 0.0, 2, true)
+		end
+	end
+end
+
+local function refreshAllDoorYaws()
+	for _, door in pairs(doors) do
+		refreshDoorYaw(door)
+	end
+end
+
 local function createDoor(door)
 	local double = door.doors
 	door.zone = GetLabelText(GetNameOfZone(door.coords.x, door.coords.y, door.coords.z))
@@ -110,6 +161,8 @@ lib.callback('ox_doorlock:getDoors', false, function(data)
 				door.entity = nil
 			end
 		end
+
+		refreshAllDoorYaws()
 
 		Wait(500)
 	end

@@ -332,8 +332,6 @@ local function useClosestDoor()
 	end
 end
 
-exports('useClosestDoor', useClosestDoor)
-
 CreateThread(function()
 	local lockDoor = locale('lock_door')
 	local unlockDoor = locale('unlock_door')
@@ -400,3 +398,6 @@ CreateThread(function()
 		Wait(num > 0 and 0 or 500)
 	end
 end)
+
+exports('useClosestDoor', useClosestDoor)
+exports('getClosestDoor', function() return ClosestDoor end)
